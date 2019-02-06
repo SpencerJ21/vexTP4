@@ -10,8 +10,13 @@ namespace robot{
   extern const double firingCatapultPosition;
 }
 
+
+enum class screenMode{
+  disabled, initializing, selection, diagnostic, sans
+};
+
 namespace robot{
-  //subsystems + controller
+  //globals
   extern okapi::Motor intake;
   extern okapi::Motor scraper;
   extern okapi::MotorGroup catapult;
@@ -19,6 +24,12 @@ namespace robot{
   extern okapi::ADIButton catapultLimitBackup;
   extern okapi::ChassisControllerIntegrated chassis;
   extern okapi::Controller controller;
+
+  namespace screen{
+    extern pros::Task* controller;
+    extern screenMode state;
+    extern std::string notification;
+  };
 };
 
 #endif

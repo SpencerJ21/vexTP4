@@ -16,11 +16,11 @@
  */
 void opcontrol() {
 	robot::catapult.tarePosition();
-	
+
 	while(true){
     robot::chassis.tank(
-      robot::controller.getAnalog(okapi::ControllerAnalog::leftY) * (robot::controller.getDigital(okapi::ControllerDigital::R1) ? 0.6 : 1.0),
-      robot::controller.getAnalog(okapi::ControllerAnalog::rightY) * (robot::controller.getDigital(okapi::ControllerDigital::R1) ? 0.6 : 1.0));
+      robot::controller.getAnalog(okapi::ControllerAnalog::leftY) * (robot::controller.getDigital(okapi::ControllerDigital::R1) ? 0.7 : 1.0),
+      robot::controller.getAnalog(okapi::ControllerAnalog::rightY) * (robot::controller.getDigital(okapi::ControllerDigital::R1) ? 0.7 : 1.0));
 
 		if(robot::controller.getDigital(okapi::ControllerDigital::X) || robot::catapultLimit.changedToReleased()){
 			robot::catapult.tarePosition();

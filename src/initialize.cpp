@@ -1,4 +1,5 @@
 #include "main.h"
+#include "robot.hpp"
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -6,8 +7,23 @@
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
-void initialize(){
+extern void screenControllerFN(void* param);
 
+void initialize(){
+  robot::screen::controller = new pros::Task(screenControllerFN,
+                                                           NULL,
+                                          TASK_PRIORITY_DEFAULT,
+                                       TASK_STACK_DEPTH_DEFAULT,
+                                                       "Screen");
+  robot::screen::state = screenMode::initializing;
+
+  while(!robot::catapultLimit.isPressed()){
+    robot::screen::notification = "Warning - catapult limit should start pressed. Check for faulty switch.";
+  }
+
+  while(!robot::catapultLimitBackup.isPressed()){
+    robot::screen::notification = "Warning - catapult limit backup should start pressed. Check for faulty switch.";
+  }
 }
 
 /**
@@ -15,4 +31,6 @@ void initialize(){
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {}
+void disabled() {
+  robot::screen::state = screenMode::sans;
+}
