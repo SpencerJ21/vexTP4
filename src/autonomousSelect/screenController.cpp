@@ -3,8 +3,11 @@
 #include "autonomousSelect/screen.hpp"
 #include "autonomousSelect/routines.hpp"
 #include <vector>
+#include <iostream>
 
 void screenControllerFN(void* param){
+  std::cout << "screen controller started";
+
   lv_obj_t* scr = lv_obj_create(NULL, NULL);
   lv_scr_load(scr);
 
@@ -27,10 +30,13 @@ void screenControllerFN(void* param){
   lv_obj_t* confirm_button;
   bool selected;
 
+  std::cout << "screen controller initialized - entering main control loop";
+
   while(true){
     switch(robot::screen::state){
       case screenMode::initializing:
         if(lastScreenState != robot::screen::state){
+          std::cout << "screen controller - initializing initialization mode";
           lv_obj_clean(scr);
 
           lastScreenState = robot::screen::state;
@@ -39,6 +45,7 @@ void screenControllerFN(void* param){
         break;
       case screenMode::selection:
         if(lastScreenState != robot::screen::state){
+          std::cout << "screen controller - initializing selection mode";
           lv_obj_clean(scr);
 
           selected = false;
@@ -114,6 +121,7 @@ void screenControllerFN(void* param){
         break;
       case screenMode::diagnostic:
         if(lastScreenState != robot::screen::state){
+          std::cout << "screen controller - initializing diagnostic mode";
           lv_obj_clean(scr);
 
           lastScreenState = robot::screen::state;
@@ -122,6 +130,7 @@ void screenControllerFN(void* param){
         break;
       case screenMode::sans:
         if(lastScreenState != robot::screen::state){
+          std::cout << "screen controller - initializing s a n s mode";
           lv_obj_clean(scr);
 
           lastScreenState = robot::screen::state;
@@ -130,6 +139,7 @@ void screenControllerFN(void* param){
         break;
       case screenMode::disabled:
         if(lastScreenState != robot::screen::state){
+          std::cout << "screen controller - disable mode";
           lv_obj_clean(scr);
 
           lastScreenState = robot::screen::state;
