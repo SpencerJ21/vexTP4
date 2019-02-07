@@ -19,7 +19,7 @@ void screenControllerFN(void* param){
 
   //object pointers, may or may not be nullptr at any given time, depending on if they are in use
 
-  //initialize
+  //notification
 
   //selection
   lv_obj_t* main_list;
@@ -102,7 +102,7 @@ void screenControllerFN(void* param){
           lastScreenState = robot::screen::state;
         }
 
-        selected = lv_btn_get_state(confirm_button) == LV_BTN_STATE_PR ? true : selected;
+        selected = lv_btn_get_state(confirm_button) == LV_BTN_STATE_PR || selected;
 
         if(!selected){
           for(int i = 0; i < number_of_routines; i++){
