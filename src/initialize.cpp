@@ -22,7 +22,7 @@ void initialize(){
   }
 
   while(!robot::catapultLimitBackup.isPressed()){
-    robot::screen::notification = "Warning - catapult limit backup should start pressed. Check for faulty switch.";
+    robot::screen::notification = "Warning - catapult limit backkup should start pressed. Check for faulty switch.";
   }
 }
 

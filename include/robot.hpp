@@ -27,7 +27,7 @@ namespace robot{
 
   namespace screen{
     extern pros::Task* controller;
-    extern screenMode state;
+    extern volatile screenMode state;
     extern std::string notification;
   };
 };

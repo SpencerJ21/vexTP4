@@ -16,7 +16,6 @@ void screenControllerFN(void* param){
   const int number_of_routines = autonomousRoutines.size();
 
   screenMode lastScreenState = screenMode::disabled;
-  bool delta;
 
   //object pointers, may or may not be nullptr at any given time, depending on if they are in use
 
@@ -29,6 +28,10 @@ void screenControllerFN(void* param){
   std::vector<lv_obj_t*> routine_labels;
   lv_obj_t* confirm_button;
   bool selected;
+
+  //diagnostic
+
+  //sans
 
   std::cout << "screen controller initialized - entering main control loop";
 
