@@ -6,7 +6,7 @@
 #include <iostream>
 
 void screenControllerFN(void* param){
-  std::cout << "screen controller started";
+  std::cout << "screen controller started\n";
 
   lv_obj_t* scr = lv_obj_create(NULL, NULL);
   lv_scr_load(scr);
@@ -33,13 +33,13 @@ void screenControllerFN(void* param){
 
   //sans
 
-  std::cout << "screen controller initialized - entering main control loop";
+  std::cout << "screen controller initialized - entering main control loop\n";
 
   while(true){
     switch(robot::screen::state){
-      case screenMode::initializing:
+      case screenMode::notification:
         if(lastScreenState != robot::screen::state){
-          std::cout << "screen controller - initializing initialization mode";
+          std::cout << "screen controller - initializing notification mode\n";
           lv_obj_clean(scr);
 
           lastScreenState = robot::screen::state;
@@ -48,7 +48,7 @@ void screenControllerFN(void* param){
         break;
       case screenMode::selection:
         if(lastScreenState != robot::screen::state){
-          std::cout << "screen controller - initializing selection mode";
+          std::cout << "screen controller - initializing selection mode\n";
           lv_obj_clean(scr);
 
           selected = false;
@@ -124,7 +124,7 @@ void screenControllerFN(void* param){
         break;
       case screenMode::diagnostic:
         if(lastScreenState != robot::screen::state){
-          std::cout << "screen controller - initializing diagnostic mode";
+          std::cout << "screen controller - initializing diagnostic mode\n";
           lv_obj_clean(scr);
 
           lastScreenState = robot::screen::state;
@@ -133,7 +133,7 @@ void screenControllerFN(void* param){
         break;
       case screenMode::sans:
         if(lastScreenState != robot::screen::state){
-          std::cout << "screen controller - initializing s a n s mode";
+          std::cout << "screen controller - initializing s a n s mode\n";
           lv_obj_clean(scr);
 
           lastScreenState = robot::screen::state;
@@ -142,7 +142,7 @@ void screenControllerFN(void* param){
         break;
       case screenMode::disabled:
         if(lastScreenState != robot::screen::state){
-          std::cout << "screen controller - disable mode";
+          std::cout << "screen controller - disable mode\n";
           lv_obj_clean(scr);
 
           lastScreenState = robot::screen::state;

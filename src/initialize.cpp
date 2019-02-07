@@ -15,7 +15,7 @@ void initialize(){
                                           TASK_PRIORITY_DEFAULT,
                                        TASK_STACK_DEPTH_DEFAULT,
                                                        "Screen");
-  robot::screen::state = screenMode::initializing;
+  robot::screen::state = screenMode::notification;
 
   while(!robot::catapultLimit.isPressed()){
     robot::screen::notification = "Warning - catapult limit should start pressed. Check for faulty switch.";
