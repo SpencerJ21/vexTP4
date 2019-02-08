@@ -1,4 +1,5 @@
 #include "main.h"
+#include "robot.hpp"
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -7,7 +8,9 @@
  * to keep execution time for this mode under a few seconds.
  */
 void initialize(){
-
+  robot::catapult.setBrakeMode(okapi::AbstractMotor::brakeMode::coast);
+  robot::catapult.setGearing(okapi::AbstractMotor::gearset::green);
+  robot::catapult.setEncoderUnits(okapi::AbstractMotor::encoderUnits::rotations);
 }
 
 /**
