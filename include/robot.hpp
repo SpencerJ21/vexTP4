@@ -6,8 +6,8 @@ using namespace okapi::literals;
 
 namespace robot{
   //config declarations
-  extern const double primedCatapultPosition;
   extern const double firingCatapultPosition;
+  extern const double primedCatapultPosition;
 }
 
 namespace robot{
