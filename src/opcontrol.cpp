@@ -16,32 +16,24 @@
  */
 void opcontrol() {
 	robot::catapult.tarePosition();
-
-	bool catapultPositionHold = false;
-
-	okapi::ControllerButton buttonR1 = robot::controller[okapi::ControllerDigital::R1];
-
+	
 	while(true){
     robot::chassis.tank(
       robot::controller.getAnalog(okapi::ControllerAnalog::leftY),
       robot::controller.getAnalog(okapi::ControllerAnalog::rightY));
 
-		if(robot::controller.getDigital(okapi::ControllerDigital::X) || robot::catapultLimit.changedToReleased() || buttonR1.changedToPressed()){
+		if(robot::controller.getDigital(okapi::ControllerDigital::X) || robot::catapultLimit.changedToReleased()){
 			robot::catapult.tarePosition();
 		}
 
-    if(robot::controller.getDigital(okapi::ControllerDigital::R1)){
+    if(robot::controller.getDigital(okapi::ControllerDigital::R1) || robot::catapultLimit.isPressed()){
       robot::catapult.moveAbsolute(robot::firingCatapultPosition, 200);
-			catapultPositionHold = false;
-    }else if(catapultPositionHold){
-      robot::catapult.moveAbsolute(robot::primedCatapultPosition, 200);
     }else{
-			robot::catapult.moveVoltage(0);
-		}
+      robot::catapult.moveAbsolute(robot::primedCatapultPosition, 200);
+    }
 
     if(robot::controller.getDigital(okapi::ControllerDigital::L1)){
       robot::intake.moveVoltage(12000);
-			catapultPositionHold = true;
     }else if(robot::controller.getDigital(okapi::ControllerDigital::L2)){
 			robot::intake.moveVoltage(-12000);
 		}else{
