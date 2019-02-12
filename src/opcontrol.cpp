@@ -1,5 +1,6 @@
 #include "main.h"
 #include "robot.hpp"
+#include "slipgear.hpp"
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -15,9 +16,8 @@
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	robot::catapult.tarePosition();
-
-	bool catapultPositionHold = false;
+	robot::catapult.tare();
+	robot::catapult.setDisabled(true);
 
 	okapi::ControllerButton buttonR1 = robot::controller[okapi::ControllerDigital::R1];
 
@@ -26,27 +26,31 @@ void opcontrol() {
       robot::controller.getAnalog(okapi::ControllerAnalog::leftY),
       robot::controller.getAnalog(okapi::ControllerAnalog::rightY));
 
-		if(robot::controller.getDigital(okapi::ControllerDigital::X) || robot::catapultLimit.changedToReleased() || buttonR1.changedToPressed()){
-			robot::catapult.tarePosition();
+
+		if(robot::controller.getDigital(okapi::ControllerDigital::X) /*|| robot::catapultLimit.changedToReleased()*/){
+			robot::catapult.tare();
 		}
 
     if(robot::controller.getDigital(okapi::ControllerDigital::R1)){
-      robot::catapult.moveAbsolute(robot::firingCatapultPosition, 200);
-			catapultPositionHold = false;
-    }else if(catapultPositionHold){
-      robot::catapult.moveAbsolute(robot::primedCatapultPosition, 200);
-    }else{
-			robot::catapult.moveVoltage(0);
-		}
+      robot::catapult.setTarget(0);
+    }else if(robot::catapult.getPosition() > 900){
+			robot::catapult.setDisabled(true);
+		}else{
+      robot::catapult.setTarget(300);
+    }
 
     if(robot::controller.getDigital(okapi::ControllerDigital::L1)){
       robot::intake.moveVoltage(12000);
-			catapultPositionHold = true;
+			robot::catapult.setDisabled(false);
     }else if(robot::controller.getDigital(okapi::ControllerDigital::L2)){
 			robot::intake.moveVoltage(-12000);
 		}else{
       robot::intake.moveVoltage(0);
     }
+
+		robot::catapult.checkForTare();
+
+		std::cout << robot::catapult.getPosition() << " || " << robot::catapult.getTarget() << " || " << robot::catapult.isDisabled() << std::endl;
 /*
 		if(robot::controller.getDigital(okapi::ControllerDigital::L1)){
       robot::scraper.moveVelocity(50);

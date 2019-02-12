@@ -1,5 +1,6 @@
 #include "main.h"
 #include "robot.hpp"
+#include "slipgear.hpp"
 
 using namespace okapi::literals;
 
@@ -16,7 +17,7 @@ okapi::Motor robot::intake(16);
 
 okapi::Motor robot::scraper(0);
 
-okapi::MotorGroup robot::catapult({20, -17});
+Slipgear robot::catapult(std::make_shared<okapi::MotorGroup>(okapi::MotorGroup({-17, 20})), 3);
 okapi::ADIButton robot::catapultLimit(1);
 okapi::ADIButton robot::catapultLimitBackup(2);
 

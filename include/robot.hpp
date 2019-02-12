@@ -1,6 +1,7 @@
 #ifndef ROBOT_HPP_
 #define ROBOT_HPP_
 #include "main.h"
+#include "slipgear.hpp"
 
 using namespace okapi::literals;
 
@@ -14,7 +15,7 @@ namespace robot{
   //subsystems + controller
   extern okapi::Motor intake;
   extern okapi::Motor scraper;
-  extern okapi::MotorGroup catapult;
+  extern Slipgear catapult;
   extern okapi::ADIButton catapultLimit;
   extern okapi::ADIButton catapultLimitBackup;
   extern okapi::ChassisControllerIntegrated chassis;
