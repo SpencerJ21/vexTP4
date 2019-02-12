@@ -6,7 +6,7 @@ using namespace okapi::literals;
 
 namespace robot{
   //user defined config
-  const double primedCatapultPosition = 1.0;
+  const double primedCatapultPosition = 0.8;
   const double firingCatapultPosition = 3.5;
 }
 

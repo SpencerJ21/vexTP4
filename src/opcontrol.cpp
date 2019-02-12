@@ -16,7 +16,10 @@
  */
 void opcontrol() {
 	robot::catapult.tarePosition();
-	
+
+	bool catapultEnabled = false;
+	uint count = 0;
+
 	while(true){
     robot::chassis.tank(
       robot::controller.getAnalog(okapi::ControllerAnalog::leftY),
@@ -26,11 +29,21 @@ void opcontrol() {
 			robot::catapult.tarePosition();
 		}
 
-    if(robot::controller.getDigital(okapi::ControllerDigital::R1) || robot::catapultLimit.isPressed()){
-      robot::catapult.moveAbsolute(robot::firingCatapultPosition, 200);
-    }else{
-      robot::catapult.moveAbsolute(robot::primedCatapultPosition, 200);
-    }
+		if(robot::controller.getDigital(okapi::ControllerDigital::A)){
+			catapultEnabled = true;
+		}else if(robot::controller.getDigital(okapi::ControllerDigital::B)){
+			catapultEnabled = false;
+		}
+
+		if(catapultEnabled){
+    	if(robot::controller.getDigital(okapi::ControllerDigital::R1) || robot::catapultLimit.isPressed()){
+      	robot::catapult.moveAbsolute(robot::firingCatapultPosition, 200);
+    	}else{
+      	robot::catapult.moveAbsolute(robot::primedCatapultPosition, 200);
+    	}
+		}else{
+			robot::catapult.moveVelocity(0);
+		}
 
     if(robot::controller.getDigital(okapi::ControllerDigital::L1)){
       robot::intake.moveVoltage(12000);
@@ -39,6 +52,8 @@ void opcontrol() {
 		}else{
       robot::intake.moveVoltage(0);
     }
+
+
 /*
 		if(robot::controller.getDigital(okapi::ControllerDigital::L1)){
       robot::scraper.moveVelocity(50);
@@ -48,6 +63,12 @@ void opcontrol() {
       robot::scraper.moveVelocity(0);
     }
 */
+
+		if(!(count % 50)){
+			robot::controller.setText(0, 0, std::to_string(robot::catapult.getTemperature()));
+		}
+
+		count++;
 		pros::delay(10);
 	}
 }
