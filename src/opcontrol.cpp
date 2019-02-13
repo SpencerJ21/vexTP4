@@ -20,17 +20,6 @@ void opcontrol() {
 
 
 	while(true){
-		robot::screen::state = screenMode::selection;
-
-		pros::delay(10000);
-
-		robot::screen::state = screenMode::notification;
-
-		pros::delay(10000);
-
-		robot::screen::state = screenMode::sans;
-
-		pros::delay(10000);
 
 		/*
     robot::chassis.tank(

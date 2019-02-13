@@ -24,8 +24,6 @@ void initialize(){
   robot::screen::notification = "Epic Gamer moment";
 
   robot::screen::state = screenMode::sans;
-  
-  pros::delay(10000);
 }
 
 /**

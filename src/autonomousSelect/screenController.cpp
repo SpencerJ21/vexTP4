@@ -3,6 +3,7 @@
 #include "autonomousSelect/screen.hpp"
 #include "autonomousSelect/routines.hpp"
 #include <vector>
+#include <string.h>
 #include <iostream>
 
 extern const lv_img_t sans;
@@ -37,6 +38,13 @@ void screenControllerFN(void* param){
 
   //sans
   lv_obj_t* sans_text;
+  lv_obj_t* sans_text_label;
+  const std::vector<std::pair<int, std::string>> script = {{2, "it's a beautiful day outside"},
+                                                           {2, "birds are singing\nflowers are blooming"},
+                                                           {2, "on days like these\nkids like you"},
+                                                           {6, "ARE GONNA HAVE A BAD TIME"}};
+  uint count, charIndex, stringIndex;
+  bool reading;
 
   std::cout << "screen controller initialized - entering main control loop\n";
 
@@ -158,7 +166,38 @@ void screenControllerFN(void* param){
           lv_obj_set_size(sans_text, 360, 60);
           lv_obj_set_pos(sans_text, 60, 170);
 
+          sans_text_label = lv_label_create(sans_text, NULL);
+          lv_label_set_style(sans_text_label, &white_text);
+          lv_label_set_long_mode(sans_text_label, LV_LABEL_LONG_BREAK);
+          lv_obj_set_size(sans_text_label, 300, 60);
+          lv_obj_align(sans_text_label, NULL, LV_ALIGN_IN_TOP_LEFT, 60, 6);
+
+          count = 0;
+          charIndex = 1;
+          stringIndex = 0;
+          reading = true;
+
           lastScreenState = robot::screen::state;
+        }
+
+        if(count >= (script.at(stringIndex).second.length() > charIndex ? script.at(stringIndex).first : 20) && reading){
+          if(script.at(stringIndex).second.length() == charIndex){
+            if(script.size() - 1 == stringIndex){
+              reading = false;
+            }else{
+              charIndex = 1;
+              stringIndex++;
+            }
+          }else{
+            charIndex++;
+          }
+          count = 0;
+        }
+
+        lv_label_set_text(sans_text_label, script.at(stringIndex).second.substr(0, charIndex).c_str());
+
+        if(reading){
+          count++;
         }
 
         break;
