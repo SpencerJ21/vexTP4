@@ -11,6 +11,10 @@ void initialize(){
   robot::catapult.setBrakeMode(okapi::AbstractMotor::brakeMode::coast);
   robot::catapult.setGearing(okapi::AbstractMotor::gearset::green);
   robot::catapult.setEncoderUnits(okapi::AbstractMotor::encoderUnits::rotations);
+
+  robot::scraper.setBrakeMode(okapi::AbstractMotor::brakeMode::hold);
+  robot::scraper.setGearing(okapi::AbstractMotor::gearset::green);
+  robot::scraper.setEncoderUnits(okapi::AbstractMotor::encoderUnits::degrees);
 }
 
 /**
