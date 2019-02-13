@@ -25,6 +25,7 @@ void opcontrol() {
       robot::controller.getAnalog(okapi::ControllerAnalog::leftY),
       robot::controller.getAnalog(okapi::ControllerAnalog::rightY));
 
+
 		if(robot::controller.getDigital(okapi::ControllerDigital::X) || robot::catapultLimit.changedToReleased()){
 			robot::catapult.tarePosition();
 		}
@@ -45,6 +46,7 @@ void opcontrol() {
 			robot::catapult.moveVelocity(0);
 		}
 
+
     if(robot::controller.getDigital(okapi::ControllerDigital::L1)){
       robot::intake.moveVoltage(12000);
     }else if(robot::controller.getDigital(okapi::ControllerDigital::L2)){
@@ -54,15 +56,14 @@ void opcontrol() {
     }
 
 
-/*
-		if(robot::controller.getDigital(okapi::ControllerDigital::L1)){
+		if(robot::controller.getDigital(okapi::ControllerDigital::up)){
       robot::scraper.moveVelocity(50);
-    }else if(robot::controller.getDigital(okapi::ControllerDigital::L2)){
+    }else if(robot::controller.getDigital(okapi::ControllerDigital::down)){
 			robot::scraper.moveVelocity(-50);
 		}else{
       robot::scraper.moveVelocity(0);
     }
-*/
+
 
 		if(!(count % 50)){
 			robot::controller.setText(0, 0, std::to_string(robot::catapult.getTemperature()));

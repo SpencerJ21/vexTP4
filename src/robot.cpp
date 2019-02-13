@@ -14,7 +14,7 @@ namespace robot{
 
 okapi::Motor robot::intake(16);
 
-okapi::Motor robot::scraper(0);
+okapi::Motor robot::scraper(21);
 
 okapi::MotorGroup robot::catapult({20, -17});
 okapi::ADIButton robot::catapultLimit(1);
