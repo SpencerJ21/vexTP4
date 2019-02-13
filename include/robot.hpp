@@ -8,6 +8,10 @@ namespace robot{
   //config declarations
   extern const double primedCatapultPosition;
   extern const double firingCatapultPosition;
+
+  extern const double upwardScraperPosition;
+  extern const double ballScrapingPosition;
+  extern const double capFlippingPosition;
 }
 
 namespace robot{

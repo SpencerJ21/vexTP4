@@ -6,15 +6,22 @@ using namespace okapi::literals;
 
 namespace robot{
   //user defined config
+
+  //catapult - rotations
   const double primedCatapultPosition = 0.8;
   const double firingCatapultPosition = 3.5;
+
+  //scraper - degrees
+  const double upwardScraperPosition = 0;
+  const double ballScrapingPosition = 110;
+  const double capFlippingPosition = 145;
 }
 
 //robot initialization
 
 okapi::Motor robot::intake(16);
 
-okapi::Motor robot::scraper(21);
+okapi::Motor robot::scraper(-21);
 
 okapi::MotorGroup robot::catapult({20, -17});
 okapi::ADIButton robot::catapultLimit(1);
