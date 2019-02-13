@@ -5,6 +5,8 @@
 #include <vector>
 #include <iostream>
 
+extern const lv_img_t sans;
+
 void screenControllerFN(void* param){
   std::cout << "screen controller started\n";
 
@@ -20,6 +22,7 @@ void screenControllerFN(void* param){
   //object pointers, may or may not be nullptr at any given time, depending on if they are in use
 
   //notification
+  lv_obj_t* notification_label;
 
   //selection
   lv_obj_t* main_list;
@@ -42,8 +45,16 @@ void screenControllerFN(void* param){
           std::cout << "screen controller - initializing notification mode\n";
           lv_obj_clean(scr);
 
+          notification_label = lv_label_create(scr, NULL);
+          lv_label_set_long_mode(notification_label, LV_LABEL_LONG_BREAK);
+          lv_label_set_align(notification_label, LV_LABEL_ALIGN_CENTER);
+          lv_obj_set_size(notification_label, 480, 240);
+          lv_obj_align(notification_label, NULL, LV_ALIGN_CENTER, 0, 0);
+
           lastScreenState = robot::screen::state;
         }
+
+        lv_label_set_text(notification_label, robot::screen::notification.c_str());
 
         break;
       case screenMode::selection:
@@ -117,7 +128,7 @@ void screenControllerFN(void* param){
 
           lv_obj_set_x(main_list, 0);
         }else{
-          lv_obj_del(main_list);
+          lv_obj_set_hidden(main_list, true);
           lv_obj_set_x(field, 120);
         }
 
@@ -136,6 +147,10 @@ void screenControllerFN(void* param){
           std::cout << "screen controller - initializing s a n s mode\n";
           lv_obj_clean(scr);
 
+          lv_obj_t* sans_img = lv_img_create(scr, NULL);
+
+          lv_img_set_src(sans_img, &sans);
+
           lastScreenState = robot::screen::state;
         }
 
@@ -150,5 +165,6 @@ void screenControllerFN(void* param){
 
         break;
     }
+    pros::delay(100);
   }
 }

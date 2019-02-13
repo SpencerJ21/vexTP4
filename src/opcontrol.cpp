@@ -17,7 +17,22 @@
 void opcontrol() {
 	robot::catapult.tarePosition();
 
+
+
 	while(true){
+		robot::screen::state = screenMode::selection;
+
+		pros::delay(10000);
+
+		robot::screen::state = screenMode::notification;
+
+		pros::delay(10000);
+
+		robot::screen::state = screenMode::sans;
+
+		pros::delay(10000);
+
+		/*
     robot::chassis.tank(
       robot::controller.getAnalog(okapi::ControllerAnalog::leftY) * (robot::controller.getDigital(okapi::ControllerDigital::R1) ? 0.7 : 1.0),
       robot::controller.getAnalog(okapi::ControllerAnalog::rightY) * (robot::controller.getDigital(okapi::ControllerDigital::R1) ? 0.7 : 1.0));
@@ -47,7 +62,7 @@ void opcontrol() {
 		}else{
       robot::scraper.moveVelocity(0);
     }
-
+*/
 		pros::delay(10);
 	}
 }
