@@ -2,6 +2,7 @@
 #include "autonomousSelect/screen.hpp"
 #include <utility>
 
+lv_style_t blank_style;
 lv_style_t list_style;
 lv_style_t field_style;
 lv_style_t blue_alliance;
@@ -27,10 +28,16 @@ lv_style_t blue_text;
 lv_style_t red_text;
 lv_style_t green_box;
 lv_style_t pressed_button;
+lv_style_t sans_text_box;
 
 
 
 void initialize_styles(){
+  lv_style_copy(&blank_style, &lv_style_plain);
+  blank_style.body.main_color = LV_COLOR_BLACK;
+  blank_style.body.grad_color = LV_COLOR_BLACK;
+  blank_style.body.border.width = 0;
+
   lv_style_copy(&list_style, &lv_style_plain);
   list_style.body.main_color = LV_COLOR_SILVER;
   list_style.body.grad_color = LV_COLOR_SILVER;
@@ -135,6 +142,13 @@ void initialize_styles(){
   lv_style_copy(&pressed_button, &list_style);
   pressed_button.body.main_color = LV_COLOR_GRAY;
   pressed_button.body.grad_color = LV_COLOR_GRAY;
+
+  lv_style_copy(&sans_text_box, &lv_style_plain);
+  sans_text_box.body.main_color = LV_COLOR_BLACK;
+  sans_text_box.body.grad_color = LV_COLOR_BLACK;
+  sans_text_box.body.border.width = 3;
+  sans_text_box.body.border.color = LV_COLOR_WHITE;
+  sans_text_box.body.radius = 0;
 }
 
 

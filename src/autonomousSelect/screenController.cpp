@@ -10,16 +10,17 @@ extern const lv_img_t sans;
 void screenControllerFN(void* param){
   std::cout << "screen controller started\n";
 
-  lv_obj_t* scr = lv_obj_create(NULL, NULL);
-  lv_scr_load(scr);
-
   initialize_styles();
+
+  lv_obj_t* scr = lv_obj_create(NULL, NULL);
+  lv_obj_set_style(scr, &blank_style);
+  lv_scr_load(scr);
 
   const int number_of_routines = autonomousRoutines.size();
 
   screenMode lastScreenState = screenMode::disabled;
 
-  //object pointers, may or may not be nullptr at any given time, depending on if they are in use
+  //object pointers, may or may not be valid at any given time, depending on if they are in use
 
   //notification
   lv_obj_t* notification_label;
@@ -35,6 +36,7 @@ void screenControllerFN(void* param){
   //diagnostic
 
   //sans
+  lv_obj_t* sans_text;
 
   std::cout << "screen controller initialized - entering main control loop\n";
 
@@ -50,6 +52,7 @@ void screenControllerFN(void* param){
           lv_label_set_align(notification_label, LV_LABEL_ALIGN_CENTER);
           lv_obj_set_size(notification_label, 480, 240);
           lv_obj_align(notification_label, NULL, LV_ALIGN_CENTER, 0, 0);
+          lv_obj_set_style(notification_label, &red_text);
 
           lastScreenState = robot::screen::state;
         }
@@ -89,10 +92,9 @@ void screenControllerFN(void* param){
 
             if(i == 0){
               //first term only
-
               lv_obj_align(routine_buttons[i], NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
-            }else{
 
+            }else{
               lv_obj_align(routine_buttons[i], routine_buttons[i-1], LV_ALIGN_OUT_BOTTOM_MID , 0, 0);
             }
 
@@ -148,8 +150,13 @@ void screenControllerFN(void* param){
           lv_obj_clean(scr);
 
           lv_obj_t* sans_img = lv_img_create(scr, NULL);
-
+          lv_obj_set_pos(sans_img, 80, 10);
           lv_img_set_src(sans_img, &sans);
+
+          sans_text = lv_obj_create(scr, NULL);
+          lv_obj_set_style(sans_text, &sans_text_box);
+          lv_obj_set_size(sans_text, 360, 60);
+          lv_obj_set_pos(sans_text, 60, 170);
 
           lastScreenState = robot::screen::state;
         }
@@ -165,6 +172,6 @@ void screenControllerFN(void* param){
 
         break;
     }
-    pros::delay(100);
+    pros::delay(50);
   }
 }
