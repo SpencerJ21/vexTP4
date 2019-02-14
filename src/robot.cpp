@@ -36,3 +36,8 @@ okapi::ChassisControllerIntegrated robot::chassis = okapi::ChassisControllerFact
 
 //main controller
 okapi::Controller robot::controller(okapi::ControllerId::master);
+
+//screen
+pros::Task* robot::screen::controller;
+volatile screenMode robot::screen::state;
+std::string robot::screen::notification;

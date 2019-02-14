@@ -4,6 +4,7 @@
 
 void initialize_styles();
 
+extern lv_style_t blank_style;
 extern lv_style_t list_style;
 extern lv_style_t field_style;
 extern lv_style_t blue_alliance;
@@ -29,6 +30,7 @@ extern lv_style_t blue_text;
 extern lv_style_t red_text;
 extern lv_style_t green_box;
 extern lv_style_t pressed_button;
+extern lv_style_t sans_text_box;
 
 
 
