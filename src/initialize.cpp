@@ -36,6 +36,8 @@ void initialize(){
     pros::delay(10);
   }
 
+  robot::screen::notification = "Ready to win";
+
 }
 
 /**
