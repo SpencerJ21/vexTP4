@@ -13,19 +13,29 @@ void initialize(){
   robot::catapult.setBrakeMode(okapi::AbstractMotor::brakeMode::coast);
   robot::catapult.setGearing(okapi::AbstractMotor::gearset::green);
   robot::catapult.setEncoderUnits(okapi::AbstractMotor::encoderUnits::rotations);
-  robot::screen::controller = new pros::Task(screenControllerFN,
-                                          TASK_PRIORITY_DEFAULT,
-                                                           NULL,
-                                       TASK_STACK_DEPTH_DEFAULT,
-                                                       "Screen");
-  robot::screen::state = screenMode::notification;
-  while(!robot::catapultLimit.isPressed()){
-    robot::screen::notification = "Warning - catapult limit should start pressed. Check for faulty switch.";
-  }
 
   robot::scraper.setBrakeMode(okapi::AbstractMotor::brakeMode::hold);
   robot::scraper.setGearing(okapi::AbstractMotor::gearset::green);
   robot::scraper.setEncoderUnits(okapi::AbstractMotor::encoderUnits::degrees);
+
+
+  robot::screen::controller = new pros::Task(screenControllerFN,
+                                                           NULL,
+                                          TASK_PRIORITY_DEFAULT,
+                                       TASK_STACK_DEPTH_DEFAULT,
+                                                       "Screen");
+  robot::screen::state = screenMode::notification;
+
+  while(!robot::catapultLimit.isPressed()){
+    robot::screen::notification = "Warning - catapult limit should start pressed. Check for faulty switch.";
+    pros::delay(10);
+  }
+
+  while(robot::catapultLimit.isPressed()){
+    robot::screen::notification = "Draw catapult to verify limit switch is functioning";
+    pros::delay(10);
+  }
+
 }
 
 /**

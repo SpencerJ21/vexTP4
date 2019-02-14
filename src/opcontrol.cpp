@@ -22,13 +22,12 @@ void opcontrol() {
 
 	while(true){
 
-		/*
     robot::chassis.tank(
       robot::controller.getAnalog(okapi::ControllerAnalog::leftY),
       robot::controller.getAnalog(okapi::ControllerAnalog::rightY));
 
 
-		if(robot::controller.getDigital(okapi::ControllerDigital::X) || robot::catapultLimit.changedToReleased()){
+		if(robot::catapultLimit.changedToReleased() || robot::controller.getDigital(okapi::ControllerDigital::X)){
 			robot::catapult.tarePosition();
 		}
 
