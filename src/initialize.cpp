@@ -26,12 +26,12 @@ void initialize(){
                                                        "Screen");
   robot::screen::state = screenMode::notification;
 
-  while(!robot::catapultLimit.isPressed()){
+  while(!robot::catapultLimit.isPressed() || robot::controller.getDigital(okapi::ControllerDigital::R1)){
     robot::screen::notification = "Warning - catapult limit should start pressed. Check for faulty switch.";
     pros::delay(10);
   }
 
-  while(robot::catapultLimit.isPressed()){
+  while(robot::catapultLimit.isPressed() || robot::controller.getDigital(okapi::ControllerDigital::R1)){
     robot::screen::notification = "Draw catapult to verify limit switch is functioning";
     pros::delay(10);
   }

@@ -1,4 +1,5 @@
 #include "main.h"
+#include "robot.hpp"
 #include "autonomousSelect/routines.hpp"
 #include "autonomousSelect/autonomousRoutine.hpp"
 
@@ -15,5 +16,6 @@
  */
 
 void autonomous() {
+  robot::screen::state = screenMode::sans;
   autonomousRoutines.at(selection).run();
 }

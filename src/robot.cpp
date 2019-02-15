@@ -13,7 +13,6 @@ namespace robot{
 
   //scraper - degrees
   const double upwardScraperPosition = 0;
-  const double ballScrapingPosition = 110;
   const double capFlippingPosition = 145;
 }
 

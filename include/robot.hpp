@@ -10,7 +10,6 @@ namespace robot{
   extern const double firingCatapultPosition;
 
   extern const double upwardScraperPosition;
-  extern const double ballScrapingPosition;
   extern const double capFlippingPosition;
 }
 

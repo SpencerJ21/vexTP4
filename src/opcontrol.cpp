@@ -60,10 +60,7 @@ void opcontrol() {
 		if(robot::controller.getDigital(okapi::ControllerDigital::up)){
       robot::scraper.moveAbsolute(robot::upwardScraperPosition, 50);
 
-		}else if(robot::controller.getDigital(okapi::ControllerDigital::right)){
-			robot::scraper.moveAbsolute(robot::ballScrapingPosition, 50);
-
-    }else if(robot::controller.getDigital(okapi::ControllerDigital::down)){
+		}else if(robot::controller.getDigital(okapi::ControllerDigital::down)){
 			robot::scraper.moveAbsolute(robot::capFlippingPosition, 50);
 		}
 
