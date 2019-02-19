@@ -11,7 +11,7 @@
  * starts.
  */
 
-int selection = 1;
+int selection = 2;
 
 void competition_initialize() {
   robot::screen::state = screenMode::selection;

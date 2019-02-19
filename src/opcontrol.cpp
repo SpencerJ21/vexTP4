@@ -15,9 +15,13 @@
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+
 	robot::catapult.tarePosition();
 
+	okapi::ControllerButton buttonR2 = robot::controller[okapi::ControllerDigital::R2];
+
 	bool catapultEnabled = false;
+	bool scraperUp = true;
 	uint count = 0;
 
 	while(true){
@@ -26,8 +30,8 @@ void opcontrol() {
       robot::controller.getAnalog(okapi::ControllerAnalog::leftY),
       robot::controller.getAnalog(okapi::ControllerAnalog::rightY));
 
-
-		if(robot::catapultLimit.changedToReleased() || robot::controller.getDigital(okapi::ControllerDigital::X)){
+		//user input of catapult controller
+		if(robot::controller.getDigital(okapi::ControllerDigital::X)){
 			robot::catapult.tarePosition();
 		}
 
@@ -35,6 +39,17 @@ void opcontrol() {
 			catapultEnabled = true;
 		}else if(robot::controller.getDigital(okapi::ControllerDigital::B)){
 			catapultEnabled = false;
+		}
+
+		//smart catapult auto input
+		if(robot::catapultLimit.changed()){
+			if(robot::catapultLimit.isPressed()){
+				//rising edge
+				catapultEnabled = false;
+			}else{
+				//falling edge
+				robot::catapult.tarePosition();
+			}
 		}
 
 		if(catapultEnabled){
@@ -48,9 +63,10 @@ void opcontrol() {
 		}
 
 
-    if(robot::controller.getDigital(okapi::ControllerDigital::L1)){
+    if(robot::controller.getDigital(okapi::ControllerDigital::L1) && scraperUp){
       robot::intake.moveVoltage(12000);
-    }else if(robot::controller.getDigital(okapi::ControllerDigital::L2)){
+			catapultEnabled = true;
+    }else if(robot::controller.getDigital(okapi::ControllerDigital::L2) && scraperUp){
 			robot::intake.moveVoltage(-12000);
 		}else{
       robot::intake.moveVoltage(0);
@@ -58,14 +74,22 @@ void opcontrol() {
 
 
 		if(robot::controller.getDigital(okapi::ControllerDigital::up)){
-      robot::scraper.moveAbsolute(robot::upwardScraperPosition, 50);
+			scraperUp = true;
 
 		}else if(robot::controller.getDigital(okapi::ControllerDigital::down)){
+			scraperUp = false;
+
+		}else if(buttonR2.changedToPressed()){
+			scraperUp = !scraperUp;
+		}
+
+		if(scraperUp){
+			robot::scraper.moveAbsolute(robot::upwardScraperPosition, 50);
+		}else{
 			robot::scraper.moveAbsolute(robot::capFlippingPosition, 50);
 		}
 
-
-		if(!(count % 50)){
+		if(!(count % 40)){
 			robot::controller.setText(0, 0, std::to_string(robot::catapult.getTemperature()));
 		}
 

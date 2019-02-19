@@ -18,6 +18,7 @@ void initialize(){
   robot::scraper.setGearing(okapi::AbstractMotor::gearset::green);
   robot::scraper.setEncoderUnits(okapi::AbstractMotor::encoderUnits::degrees);
 
+  robot::chassis.setMaxVelocity(200);
 
   robot::screen::controller = new pros::Task(screenControllerFN,
                                                            NULL,
@@ -26,17 +27,17 @@ void initialize(){
                                                        "Screen");
   robot::screen::state = screenMode::notification;
 
-  while(!robot::catapultLimit.isPressed() || robot::controller.getDigital(okapi::ControllerDigital::R1)){
+  while(!robot::catapultLimit.isPressed() && pros::competition::is_connected()){
     robot::screen::notification = "Warning - catapult limit should start pressed. Check for faulty switch.";
     pros::delay(10);
   }
 
-  while(robot::catapultLimit.isPressed() || robot::controller.getDigital(okapi::ControllerDigital::R1)){
+  while(robot::catapultLimit.isPressed() && pros::competition::is_connected()){
     robot::screen::notification = "Draw catapult to verify limit switch is functioning";
     pros::delay(10);
   }
 
-  robot::screen::notification = "Ready to win";
+  robot::screen::notification = "Sí, sabes que ya llevo un rato mirándote\nTengo que bailar contigo hoy (DY)\nVi que tu mirada ya estaba llamándome\nMuéstrame el camino que yo voy (Oh)\nTú, tú eres el imán y yo soy el metal\nMe voy acercando y voy armando el plan\nSolo con pensarlo se acelera el pulso (Oh yeah)\nYa, ya me está gustando más de lo normal\nTodos mis sentidos van pidiendo más\nEsto hay que tomarlo sin ningún apuro\nDespacito";
 
 }
 

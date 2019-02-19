@@ -24,7 +24,7 @@ namespace robot{
   extern okapi::Motor scraper;
   extern okapi::MotorGroup catapult;
   extern okapi::ADIButton catapultLimit;
-  extern okapi::ADIButton catapultLimitBackup;
+  extern okapi::ADIButton parkingLimit;
   extern okapi::ChassisControllerIntegrated chassis;
   extern okapi::Controller controller;
 
