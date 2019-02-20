@@ -59,7 +59,7 @@ void screenControllerFN(void* param){
           lv_label_set_long_mode(notification_label, LV_LABEL_LONG_BREAK);
           lv_label_set_align(notification_label, LV_LABEL_ALIGN_CENTER);
           lv_obj_set_size(notification_label, 480, 240);
-          lv_obj_align(notification_label, NULL, LV_ALIGN_CENTER, 0, 0);
+          lv_obj_align(notification_label, NULL, LV_ALIGN_IN_TOP_MID, 0, 0);
           lv_obj_set_style(notification_label, &red_text);
 
           lastScreenState = robot::screen::state;
@@ -150,6 +150,8 @@ void screenControllerFN(void* param){
 
           lastScreenState = robot::screen::state;
         }
+
+        
 
         break;
       case screenMode::sans:

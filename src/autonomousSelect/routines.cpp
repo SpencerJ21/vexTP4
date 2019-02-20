@@ -112,16 +112,17 @@ autonomousRoutine redFlag1("Red Flag - 11S", &red_text, redFlag1Auton, redFlag1P
 
 void blueFlag1Auton(){
   okapi::AsyncMotionProfileController profileController = okapi::AsyncControllerFactory::motionProfile(
-    1.0,  // Maximum linear velocity of the Chassis in m/s
+    0.9,  // Maximum linear velocity of the Chassis in m/s
     2.0,  // Maximum linear acceleration of the Chassis in m/s/s
     10.0, // Maximum linear jerk of the Chassis in m/s/s/s
     robot::chassis // Chassis Controller
   );
 
-  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {4.5_ft, 0_in, 0_deg}}, "A");
-  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {1.7_ft, 0_in, 0_deg}}, "B");
+  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {3.8_ft, 0_in, 0_deg}}, "A");
+  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {1.7_ft, -2_in, 0_deg}}, "B");
   profileController.generatePath({{0_ft, 0_ft, 0_deg}, {4_ft, -6_in, 0_deg}}, "C");
 
+  robot::scraper.moveAbsolute(90, 50);
   robot::intake.moveVoltage(12000);
 
   profileController.setTarget("A");
@@ -139,6 +140,7 @@ void blueFlag1Auton(){
   profileController.setTarget("A", true);
   profileController.waitUntilSettled();
 
+  robot::scraper.moveAbsolute(0, 50);
   robot::chassis.turnAngle(90_deg);
 
   profileController.setTarget("B");

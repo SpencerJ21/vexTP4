@@ -19,12 +19,20 @@ void opcontrol() {
 	robot::catapult.tarePosition();
 
 	okapi::ControllerButton buttonR2 = robot::controller[okapi::ControllerDigital::R2];
+	okapi::ControllerButton buttonY = robot::controller[okapi::ControllerDigital::Y];
 
 	bool catapultEnabled = false;
 	bool scraperUp = true;
+	bool braking = false;
 	uint count = 0;
 
 	while(true){
+
+		if(buttonY.changedToPressed()){
+			braking = !braking;
+
+			robot::chassis.setBrakeMode(braking ? okapi::AbstractMotor::brakeMode::hold : okapi::AbstractMotor::brakeMode::coast);
+		}
 
     robot::chassis.tank(
       robot::controller.getAnalog(okapi::ControllerAnalog::leftY),
@@ -90,7 +98,7 @@ void opcontrol() {
 		}
 
 		if(!(count % 40)){
-			robot::controller.setText(0, 0, std::to_string(robot::catapult.getTemperature()));
+			robot::controller.setText(0, 0, std::to_string(robot::catapult.getTemperature()) + (braking ? " B" : " C"));
 		}
 
 		count++;

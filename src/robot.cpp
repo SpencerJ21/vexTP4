@@ -13,7 +13,7 @@ namespace robot{
 
   //scraper - degrees
   const double upwardScraperPosition = 0;
-  const double capFlippingPosition = 135;
+  const double capFlippingPosition = 140;
 }
 
 //robot initialization
@@ -30,7 +30,7 @@ okapi::ChassisControllerIntegrated robot::chassis = okapi::ChassisControllerFact
   {-11, 19},   // Left motors
   {15, -18},    // Right motors
   okapi::AbstractMotor::gearset::green, // 200RPM gearset
-  {4.225_in, 12.55_in} // 4.25 inch wheels (4 inch omnis are slightly larger), 12.55 inch wheelbase width
+  {4.225_in, 12.65_in} // 4.25 inch wheels (4 inch omnis are slightly larger), 12.55 inch wheelbase width
 );
 
 //main controller
