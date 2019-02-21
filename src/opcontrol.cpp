@@ -15,7 +15,7 @@
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-
+	
 	robot::catapult.tarePosition();
 
 	okapi::ControllerButton buttonR2 = robot::controller[okapi::ControllerDigital::R2];
