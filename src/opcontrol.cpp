@@ -15,11 +15,14 @@
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	
+	robot::chassis.setBrakeMode(okapi::AbstractMotor::brakeMode::coast);
+
 	robot::catapult.tarePosition();
 
 	okapi::ControllerButton buttonR2 = robot::controller[okapi::ControllerDigital::R2];
 	okapi::ControllerButton buttonY = robot::controller[okapi::ControllerDigital::Y];
+
+	robot::scraper.moveAbsolute(90, 50);
 
 	bool catapultEnabled = false;
 	bool scraperUp = true;
@@ -83,19 +86,25 @@ void opcontrol() {
 
 		if(robot::controller.getDigital(okapi::ControllerDigital::up)){
 			scraperUp = true;
+			robot::scraper.moveAbsolute(robot::upwardScraperPosition, 50);
 
 		}else if(robot::controller.getDigital(okapi::ControllerDigital::down)){
 			scraperUp = false;
+			robot::scraper.moveAbsolute(robot::capFlippingPosition, 50);
+
+		}else if(robot::controller.getDigital(okapi::ControllerDigital::right)){
+			robot::scraper.moveAbsolute(90, 50);
 
 		}else if(buttonR2.changedToPressed()){
 			scraperUp = !scraperUp;
+
+			if(scraperUp){
+				robot::scraper.moveAbsolute(robot::upwardScraperPosition, 50);
+			}else{
+				robot::scraper.moveAbsolute(robot::capFlippingPosition, 50);
+			}
 		}
 
-		if(scraperUp){
-			robot::scraper.moveAbsolute(robot::upwardScraperPosition, 50);
-		}else{
-			robot::scraper.moveAbsolute(robot::capFlippingPosition, 50);
-		}
 
 		if(!(count % 40)){
 			robot::controller.setText(0, 0, std::to_string(robot::catapult.getTemperature()) + (braking ? " B" : " C"));

@@ -33,16 +33,17 @@ autonomousRoutine disable("Disable - 0S", &white_text, disableAuton, disabledPri
 
 void redFlag1Auton(){
   okapi::AsyncMotionProfileController profileController = okapi::AsyncControllerFactory::motionProfile(
-    1.0,  // Maximum linear velocity of the Chassis in m/s
-    2.0,  // Maximum linear acceleration of the Chassis in m/s/s
+    0.9,  // Maximum linear velocity of the Chassis in m/s
+    1.0,  // Maximum linear acceleration of the Chassis in m/s/s
     10.0, // Maximum linear jerk of the Chassis in m/s/s/s
     robot::chassis // Chassis Controller
   );
 
-  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {4.5_ft, 0_in, 0_deg}}, "A");
-  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {1.7_ft, 0_in, 0_deg}}, "B");
+  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {3.8_ft, 0_in, 0_deg}}, "A");
+  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {2_ft, 2_in, 0_deg}}, "B");
   profileController.generatePath({{0_ft, 0_ft, 0_deg}, {4_ft, 6_in, 0_deg}}, "C");
 
+  robot::scraper.moveAbsolute(30, 50);
   robot::intake.moveVoltage(12000);
 
   profileController.setTarget("A");
@@ -60,6 +61,7 @@ void redFlag1Auton(){
   profileController.setTarget("A", true);
   profileController.waitUntilSettled();
 
+  robot::scraper.moveAbsolute(0, 50);
   robot::chassis.turnAngle(-90_deg);
 
   profileController.setTarget("B");
@@ -113,16 +115,16 @@ autonomousRoutine redFlag1("Red Flag - 11S", &red_text, redFlag1Auton, redFlag1P
 void blueFlag1Auton(){
   okapi::AsyncMotionProfileController profileController = okapi::AsyncControllerFactory::motionProfile(
     0.9,  // Maximum linear velocity of the Chassis in m/s
-    2.0,  // Maximum linear acceleration of the Chassis in m/s/s
+    1.0,  // Maximum linear acceleration of the Chassis in m/s/s
     10.0, // Maximum linear jerk of the Chassis in m/s/s/s
     robot::chassis // Chassis Controller
   );
 
   profileController.generatePath({{0_ft, 0_ft, 0_deg}, {3.8_ft, 0_in, 0_deg}}, "A");
-  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {1.7_ft, -2_in, 0_deg}}, "B");
+  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {2_ft, -2_in, 0_deg}}, "B");
   profileController.generatePath({{0_ft, 0_ft, 0_deg}, {4_ft, -6_in, 0_deg}}, "C");
 
-  robot::scraper.moveAbsolute(90, 50);
+  robot::scraper.moveAbsolute(30, 50);
   robot::intake.moveVoltage(12000);
 
   profileController.setTarget("A");
@@ -192,4 +194,176 @@ void blueFlag1Print(lv_obj_t* parent){
 
 autonomousRoutine blueFlag1("Blue Flag - 11S", &blue_text, blueFlag1Auton, blueFlag1Print);
 
-std::vector<autonomousRoutine> autonomousRoutines = {disable, redFlag1, blueFlag1};
+void blueCap1Auton(){
+  okapi::AsyncMotionProfileController profileController = okapi::AsyncControllerFactory::motionProfile(
+    0.9,  // Maximum linear velocity of the Chassis in m/s
+    1.0,  // Maximum linear acceleration of the Chassis in m/s/s
+    10.0, // Maximum linear jerk of the Chassis in m/s/s/s
+    robot::chassis // Chassis Controller
+  );
+
+  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {3.3_ft, 0_in, 0_deg}}, "A");
+  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {2_ft, 1_ft, 0_deg}}, "B");
+  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {5_ft, 0_ft, 0_deg}}, "C");
+  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {3_ft, -3_ft, -90_deg}}, "D");
+
+  robot::scraper.moveAbsolute(30, 50);
+  robot::intake.moveVoltage(12000);
+
+  profileController.setTarget("A");
+  profileController.waitUntilSettled();
+
+  profileController.setTarget("B", true);
+  profileController.waitUntilSettled();
+
+  robot::intake.moveVoltage(0);
+  robot::scraper.moveAbsolute(robot::capFlippingPosition, 50);
+
+  profileController.setTarget("B");
+  profileController.waitUntilSettled();
+
+  profileController.setTarget("C", true);
+  pros::delay(250);
+  robot::scraper.moveAbsolute(30, 50);
+  profileController.waitUntilSettled();
+
+  profileController.setTarget("D");
+  profileController.waitUntilSettled();
+
+  robot::chassis.moveDistance(3_ft);
+}
+
+void blueCap1Print(lv_obj_t* parent){
+  starting_tile top_red_starting_tile(parent, starting_tile_position::far_red);
+  starting_tile bottom_red_starting_tile(parent, starting_tile_position::near_red);
+  starting_tile top_blue_starting_tile(parent, starting_tile_position::far_blue);
+  starting_tile bottom_blue_starting_tile(parent, starting_tile_position::near_blue, true);
+
+  drawLines(parent);
+
+  defaultLeftCaps(parent);
+
+  cap red_cap_1(parent, cap_position::right_1, cap_state::blue, true);
+  cap blue_cap_2(parent, cap_position::right_2, cap_state::blue, true);
+  cap blue_cap_3(parent, cap_position::right_3, cap_state::blue_slanted);
+  cap red_cap_4(parent, cap_position::right_4, cap_state::red);
+
+
+  defaultLeftFlags(parent);
+  defaultMiddleFlags(parent);
+  defaultRightFlags(parent);
+
+  drawFlagPoles(parent);
+
+  platform red_platform(parent, platform_color::red);
+  platform blue_platform(parent, platform_color::blue, true);
+  platform yellow_platform(parent, platform_color::yellow);
+
+  defaultLeftBalls(parent);
+
+  lv_obj_t* ball_3 = lv_obj_create(parent, NULL);
+  lv_obj_set_style(ball_3, &ball_style);
+  lv_obj_set_pos(ball_3, 174, 60);
+  lv_obj_set_size(ball_3, 5,5);
+
+  lv_obj_t* ball_4 = lv_obj_create(parent, ball_3);
+  lv_obj_set_pos(ball_4, 180, 54);
+
+  lv_obj_t* ball_7 = lv_obj_create(parent, ball_3);
+  lv_obj_set_pos(ball_7, 170, 122);
+
+  lv_obj_t* ball_8 = lv_obj_create(parent, ball_3);
+  lv_obj_set_pos(ball_8, 170, 153);
+}
+
+autonomousRoutine blueCap1("Blue Cap - 6S", &blue_text, blueCap1Auton, blueCap1Print);
+
+void skills1Auton(){
+  okapi::AsyncMotionProfileController profileController = okapi::AsyncControllerFactory::motionProfile(
+    0.9,  // Maximum linear velocity of the Chassis in m/s
+    1.0,  // Maximum linear acceleration of the Chassis in m/s/s
+    10.0, // Maximum linear jerk of the Chassis in m/s/s/s
+    robot::chassis // Chassis Controller
+  );
+
+  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {3.8_ft, 0_in, 0_deg}}, "A");
+  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {2_ft, 2_in, 0_deg}}, "B");
+  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {4_ft, 6_in, 0_deg}}, "C");
+  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {6_ft, 0_in, 0_deg}}, "D");
+
+  robot::scraper.moveAbsolute(30, 50);
+  robot::intake.moveVoltage(12000);
+
+  profileController.setTarget("A");
+  profileController.waitUntilSettled();
+
+  robot::catapult.moveAbsolute(robot::firingCatapultPosition, 200);
+
+  while(robot::catapultLimit.isPressed()){
+    pros::delay(10);
+  }
+  robot::catapult.tarePosition();
+
+  robot::catapult.moveAbsolute(robot::primedCatapultPosition, 200);
+
+  profileController.setTarget("A", true);
+  profileController.waitUntilSettled();
+
+  robot::scraper.moveAbsolute(0, 50);
+  robot::chassis.turnAngle(-90_deg);
+
+  profileController.setTarget("B");
+  profileController.waitUntilSettled();
+
+  robot::intake.moveVoltage(0);
+  robot::catapult.moveAbsolute(robot::firingCatapultPosition, 200);
+
+  while(!robot::catapultLimit.isPressed()){
+    pros::delay(10);
+  }
+
+  robot::catapult.moveVelocity(0);
+
+  profileController.setTarget("C");
+  profileController.waitUntilSettled();
+
+  profileController.setTarget("D", true);
+  profileController.waitUntilSettled();
+
+  robot::chassis.turnAngle(90_deg);
+  robot::chassis.moveDistance(6_ft);
+  robot::chassis.moveDistance(4_ft);
+}
+
+void skills1Print(lv_obj_t* parent){
+  starting_tile top_red_starting_tile(parent, starting_tile_position::far_red, true);
+  starting_tile bottom_red_starting_tile(parent, starting_tile_position::near_red);
+  starting_tile top_blue_starting_tile(parent, starting_tile_position::far_blue);
+  starting_tile bottom_blue_starting_tile(parent, starting_tile_position::near_blue);
+
+  drawLines(parent);
+
+  cap blue_cap_1(parent, cap_position::left_1, cap_state::blue);
+  cap red_cap_2(parent, cap_position::left_2, cap_state::red_slanted);
+  cap red_cap_3(parent, cap_position::left_3, cap_state::red, true);
+  cap blue_cap_4(parent, cap_position::left_4, cap_state::blue);
+
+  defaultRightCaps(parent);
+
+
+  flag left_top(parent, flag_position::left_high, flag_state::red, true);
+  flag left_mid(parent, flag_position::left_middle, flag_state::red, true);
+  flag left_low(parent, flag_position::left_low, flag_state::red, true);
+
+
+  platform red_platform(parent, platform_color::red, true);
+  platform blue_platform(parent, platform_color::blue);
+  platform yellow_platform(parent, platform_color::yellow);
+
+  defaultLeftBalls(parent);
+  defaultRightBalls(parent);
+}
+
+autonomousRoutine skills1("Skills - 12", &white_text, skills1Auton, skills1Print);
+
+std::vector<autonomousRoutine> autonomousRoutines = {disable, skills1, redFlag1, blueFlag1, blueCap1};

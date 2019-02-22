@@ -16,6 +16,7 @@
  */
 
 void autonomous() {
+  robot::chassis.setBrakeMode(okapi::AbstractMotor::brakeMode::hold);
   robot::screen::state = screenMode::sans;
   autonomousRoutines.at(selection).run();
 }
