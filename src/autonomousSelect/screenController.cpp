@@ -7,6 +7,7 @@
 #include <iostream>
 
 extern const lv_img_t sans;
+extern const lv_img_t logo;
 
 void screenControllerFN(void* param){
   std::cout << "screen controller started\n";
@@ -151,7 +152,7 @@ void screenControllerFN(void* param){
           lastScreenState = robot::screen::state;
         }
 
-        
+
 
         break;
       case screenMode::sans:
@@ -200,6 +201,18 @@ void screenControllerFN(void* param){
 
         if(reading){
           count++;
+        }
+
+        break;
+      case screenMode::logo:
+        if(lastScreenState != robot::screen::state){
+          std::cout << "screen controller - initializing logo mode\n";
+          lv_obj_clean(scr);
+
+          lv_obj_t* logo_img = lv_img_create(scr, NULL);
+          lv_img_set_src(logo_img, &logo);
+
+          lastScreenState = robot::screen::state;
         }
 
         break;

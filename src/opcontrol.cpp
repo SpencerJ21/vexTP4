@@ -17,6 +17,8 @@
 void opcontrol() {
 	robot::chassis.setBrakeMode(okapi::AbstractMotor::brakeMode::coast);
 
+	robot::screen::state = screenMode::logo;
+
 	robot::catapult.tarePosition();
 
 	okapi::ControllerButton buttonR2 = robot::controller[okapi::ControllerDigital::R2];

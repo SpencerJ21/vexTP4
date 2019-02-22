@@ -15,7 +15,7 @@ namespace robot{
 
 
 enum class screenMode{
-  disabled, notification, selection, diagnostic, sans
+  disabled, notification, selection, diagnostic, sans, logo
 };
 
 namespace robot{

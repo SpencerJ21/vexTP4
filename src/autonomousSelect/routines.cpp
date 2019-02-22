@@ -331,7 +331,10 @@ void skills1Auton(){
   profileController.waitUntilSettled();
 
   robot::chassis.turnAngle(90_deg);
-  robot::chassis.moveDistance(6_ft);
+  robot::chassis.moveDistance(-2_ft);
+  
+  robot::chassis.moveDistance(7_ft);
+  pros::delay(200);
   robot::chassis.moveDistance(4_ft);
 }
 
