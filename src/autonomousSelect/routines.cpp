@@ -373,9 +373,9 @@ void skills1Auton(){
   profileController.generatePath({{0_ft, 0_ft, 0_deg}, {3.8_ft, 0_in, 0_deg}}, "A");
   profileController.generatePath({{0_ft, 0_ft, 0_deg}, {2_ft, 2_in, 0_deg}}, "B");
   profileController.generatePath({{0_ft, 0_ft, 0_deg}, {4_ft, 6_in, 0_deg}}, "C");
-  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {6_ft, 0_in, 0_deg}}, "D");
+  profileController.generatePath({{0_ft, 0_ft, 0_deg}, {6.2_ft, -2_in, 0_deg}}, "D");
 
-  robot::scraper.moveAbsolute(30, 50);
+  robot::scraper.moveAbsolute(95, 50);
   robot::intake.moveVoltage(12000);
 
   profileController.setTarget("A");
@@ -388,13 +388,13 @@ void skills1Auton(){
   }
   robot::catapult.tarePosition();
 
-  robot::catapult.moveAbsolute(robot::primedCatapultPosition, 200);
+  robot::catapult.moveAbsolute(0.7, 200);
 
   profileController.setTarget("A", true);
   profileController.waitUntilSettled();
 
-  robot::scraper.moveAbsolute(0, 50);
-  robot::chassis.turnAngle(-90_deg);
+  robot::scraper.moveAbsolute(10, 50);
+  robot::chassis.turnAngle(-95_deg);
 
   profileController.setTarget("B");
   profileController.waitUntilSettled();
@@ -408,18 +408,25 @@ void skills1Auton(){
 
   robot::catapult.moveVelocity(0);
 
+  robot::intake.moveVoltage(12000);
   profileController.setTarget("C");
   profileController.waitUntilSettled();
 
   profileController.setTarget("D", true);
   profileController.waitUntilSettled();
 
-  robot::chassis.turnAngle(90_deg);
-  robot::chassis.moveDistance(-2_ft);
+  robot::chassis.resetSensors();
+  pros::delay(100);
 
-  robot::chassis.moveDistance(7_ft);
-  pros::delay(200);
+  robot::chassis.turnAngle(130);
+
+  robot::chassis.moveDistance(-2_ft);
+  pros::delay(500);
   robot::chassis.moveDistance(4_ft);
+  pros::delay(500);
+  robot::chassis.moveDistance(4_ft);
+  pros::delay(500);
+  robot::chassis.moveDistance(2_ft);
 }
 
 void skills1Print(lv_obj_t* parent){

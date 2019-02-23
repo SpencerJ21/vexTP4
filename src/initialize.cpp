@@ -19,6 +19,7 @@ void initialize(){
   robot::scraper.setEncoderUnits(okapi::AbstractMotor::encoderUnits::degrees);
 
   robot::chassis.setMaxVelocity(200);
+  robot::chassis.setEncoderUnits(okapi::AbstractMotor::encoderUnits::degrees);
 
   robot::screen::controller = new pros::Task(screenControllerFN,
                                                            NULL,
@@ -41,7 +42,7 @@ void initialize(){
 
 }
 
-/**       s    C        S
+/**
  * Runs while the robot is in the disabled state of Field Management System or
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.

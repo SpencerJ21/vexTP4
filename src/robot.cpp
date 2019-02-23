@@ -12,7 +12,7 @@ namespace robot{
   const double firingCatapultPosition = 3.5;
 
   //scraper - degrees
-  const double upwardScraperPosition = 0;
+  const double upwardScraperPosition = 10;
   const double capFlippingPosition = 140;
 }
 
